@@ -1,27 +1,27 @@
 
-  if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-  }
-  var createError = require('http-errors');
-  var express = require('express');
-  var path = require('path');
-  var cookieParser = require('cookie-parser');
-  var logger = require('morgan');
-  const sessions = require('express-session');
-  var db = require('./connection');
-  const hbs = require('express-handlebars');
-  var app = express();
-  
-  db.connect((err) => {
-    if (err) console.log("Connection Error" + err);
-    else console.log("Database connected to port")
-  })
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+const sessions = require('express-session');
+var db = require('./connection');
+const hbs = require('express-handlebars');
+var app = express();
+
+db.connect((err) => {
+  if (err) console.log("Connection Error" + err);
+  else console.log("Database connected to port")
+})
 
 
-  var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index');
 
-   var productRouter = require('./routes/product-routes');
-  
+var productRouter = require('./routes/product-routes');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,8 +48,8 @@ app.use(sessions({
 
 app.use('/', indexRouter);
 
-  app.use('/products', productRouter);
-  
+app.use('/products', productRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -60,7 +60,6 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
@@ -68,4 +67,3 @@ app.use(function (err, req, res, next) {
 
 module.exports = app;
 
-  
